@@ -22,7 +22,7 @@ h3. Samples
 
 h4. Expression templating
 
-SpEL expressions need to be surrounded by @#{@ @}@ delimiters since "expression templating":http://static.springsource.org/spring/docs/current/spring-framework-reference/htmlsingle/spring-framework-reference.html#d0e12128 is enabled. This allows you to combine SpEL expressions with regular text and use it an an extremely lightweight template language. 
+SpEL expressions need to be surrounded by @#{@ @}@ delimiters since "expression templating":http://static.springsource.org/spring/docs/current/spring-framework-reference/htmlsingle/spring-framework-reference.html#d0e12128 is enabled. This allows you to combine SpEL expressions with regular text and use this as extremely lightweight template language. 
 
 For example if you construct the following route:
 <code>
@@ -31,7 +31,8 @@ from("direct:example")
 .to("mock:result");
 </code>
 
-And sent a message with the string "World" in the body, and a header "dayOrNight" with value "day":
+And sent a message with the string "World" in the body, and a header "dayOrNight" with value "day", to this route
+:
 <code>
 template.sendBodyAndHeader("direct:example", "World", "dayOrNight", "day");
 </code>
