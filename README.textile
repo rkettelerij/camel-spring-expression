@@ -39,11 +39,7 @@ The output on @mock:result@ will be _"Hello World! What a beautiful day"_
 
 h4. Bean integration
 
-You can reference beans defined in the [Registry] (most likely an @ApplicationContext@) in your SpEL expressions. For example if you have a bean named "foo" in you @ApplicationContext@ you can invoke the "bar" method on this bean like this:
-
-<code>
-#{@foo.bar == 'xyz'}
-</code>
+You can reference beans defined in the [Registry] (most likely an @ApplicationContext@) in your SpEL expressions. For example if you have a bean named "foo" in your @ApplicationContext@ you can invoke the "bar" method on this bean like this: @#{@foo.bar == 'xyz'}@.
 
 h4. SpEL in enterprise integration patterns
 
