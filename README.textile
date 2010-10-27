@@ -34,6 +34,7 @@ And sent a message with the string "World" in the body, and a header "dayOrNight
 <code>
 template.sendBodyAndHeader("direct:example", "World", "dayOrNight", "day");
 </code>
+
 The output on @mock:result@ will be _"Hello World! What a beautiful day"_
 
 h4. SpEL in enterprise integration patterns
