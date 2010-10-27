@@ -1,19 +1,11 @@
-h1. Spring Expression Language (SpEL)
+h2. Spring Expression Language (SpEL)
 
-Camel allows "SpEL":http://static.springsource.org/spring/docs/current/spring-framework-reference/htmlsingle/spring-framework-reference.html#expressions to be used as an [Expression] or [Predicate] the [DSL] or [Xml Configuration].
-
-You could use SpEL to create an [Predicate] in a [Message Filter] or as an [Expression] for a [Recipient List]
-
-You can use SpEL dot notation to invoke operations. If you for instance have a body that contains a POJO that has a @getFamiliyName@ method then you can construct the syntax as follows:
-<code>
-"request.body.familyName"
-   // or 
-"getRequest().getBody().getFamilyName()"
-</code>
+Camel allows "SpEL":http://static.springsource.org/spring/docs/current/spring-framework-reference/htmlsingle/spring-framework-reference.html#expressions to be used as an [Expression] or [Predicate] in the [DSL] or [Xml Configuration].
 
 h3. Variables
 
-|| Variable || Type || Description ||
+The following variables are available in expressions and predicates written in SpEL
+| Variable | Type | Description |
 | *this* | Exchange | the Exchange is the root object |
 | exchange | Exchange | the Exchange object |
 | exception | Throwable | the Exchange exception (if any) |
@@ -26,27 +18,46 @@ h3. Variables
 | property(name, type) | Type | the property by the given name as the given type |
 
 h3. Samples
-For example you could use SpEL inside a [Message Filter] in XML
 
+h4. Expression templating
+
+SpEL expressions need to be surrounded by @#{@ @}@ delimiters since "expression templating":http://static.springsource.org/spring/docs/current/spring-framework-reference/htmlsingle/spring-framework-reference.html#d0e12128 is enabled. This allows you to combine SpEL expressions with regular text and use it an an extremely lightweight template language. 
+
+For example if you construct the following route:
+<code>
+from("direct:example")
+.setBody(spel("Hello #{request.body}! What a beautiful #{request.headers['dayOrNight']}"))
+.to("mock:result");
+</code>
+
+And sent a message with the string "World" in the body, and a header "dayOrNight" with value "day":
+<code>
+template.sendBodyAndHeader("direct:example", "World", "dayOrNight", "day");
+</code>
+
+The output on @mock:result@ will be: "Hello World! What a beautiful day"
+
+h4. SpEL in enterprise integration patterns
+
+You could for example use SpEL as a predicate inside a [Message Filter] in XML
 <pre>
 <route>
   <from uri="direct:foo"/>
   <filter>
-    <spel>request.headers['foo'] == 'bar'</spel>
+    <spel>#{request.headers['foo'] == 'bar'}</spel>
     <to uri="direct:bar"/>
   </filter>
 </route>
 </pre>
 
-And the sample using Java DSL:
+And the equivalent in Java DSL:
 <code>
-   from("direct:foo").filter().spel("request.headers['foo'] == 'bar'").to("direct:bar");
+   from("direct:foo").filter().spel("#{request.headers['foo'] == 'bar'}").to("direct:bar");
 </code>
 
 h3. Dependencies
  
-You need Spring 3.0 or higher to use Spring Expression Language.
-If you use Maven you could just add the following to your {{pom.xml}}:
+You need Spring 3.0 or higher to use Spring Expression Language. If you use Maven you could just add the following to your @pom.xml@:
 
 <pre>
 <dependency>
@@ -56,4 +67,3 @@ If you use Maven you could just add the following to your {{pom.xml}}:
   <!-- use the same version as your Camel core version -->
 </dependency>
 </pre>
-
