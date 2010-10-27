@@ -26,9 +26,7 @@ SpEL expressions need to be surrounded by @#{@ @}@ delimiters since "expression 
 
 For example if you construct the following route:
 <code>
-from("direct:example")
-.setBody(spel("Hello #{request.body}! What a beautiful #{request.headers['dayOrNight']}"))
-.to("mock:result");
+from("direct:example").setBody(spel("Hello #{request.body}! What a beautiful #{request.headers['dayOrNight']}")).to("mock:result");
 </code>
 
 And sent a message with the string "World" in the body, and a header "dayOrNight" with value "day":
