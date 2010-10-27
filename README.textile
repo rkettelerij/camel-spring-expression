@@ -4,7 +4,8 @@ Camel allows "SpEL":http://static.springsource.org/spring/docs/current/spring-fr
 
 h3. Variables
 
-The following variables are available in expressions and predicates written in SpEL
+The following variables are available in expressions and predicates written in SpEL:
+
 | Variable | Type | Description |
 | *this* | Exchange | the Exchange is the root object |
 | exchange | Exchange | the Exchange object |
@@ -35,11 +36,12 @@ And sent a message with the string "World" in the body, and a header "dayOrNight
 template.sendBodyAndHeader("direct:example", "World", "dayOrNight", "day");
 </code>
 
-The output on @mock:result@ will be: "Hello World! What a beautiful day"
+The output on @mock:result@ will be _"Hello World! What a beautiful day"_
 
 h4. SpEL in enterprise integration patterns
 
 You could for example use SpEL as a predicate inside a [Message Filter] in XML
+
 <pre>
 <route>
   <from uri="direct:foo"/>
@@ -51,6 +53,7 @@ You could for example use SpEL as a predicate inside a [Message Filter] in XML
 </pre>
 
 And the equivalent in Java DSL:
+
 <code>
    from("direct:foo").filter().spel("#{request.headers['foo'] == 'bar'}").to("direct:bar");
 </code>
